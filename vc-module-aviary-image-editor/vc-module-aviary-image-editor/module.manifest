@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<module>
+    <id>vc_module_aviary_image_editor</id>
+    <version>1.0.0</version>
+    <platformVersion>2.13.10</platformVersion>
+
+  <dependencies>
+    <dependency id="VirtoCommerce.Core" version="2.24.1" />
+    <dependency id="VirtoCommerce.Catalog" version="2.18.7" />
+  </dependencies>
+  
+    <title>vc-module-aviary-image-editor</title>
+    <description>Enter your module description here.</description>
+    <authors>
+        <author>Valeriy Krashenko</author>
+    </authors>
+
+    <assemblyFile>vc_module_aviary_image_editor.dll</assemblyFile>
+    <moduleType>vc_module_aviary_image_editor.Module, vc_module_aviary_image_editor</moduleType>
+
+    <styles>
+        <directory virtualPath="$/Content/css" searchPattern="*.css" searchSubdirectories="true" />
+    </styles>
+    <scripts>
+        <directory virtualPath="$/Scripts" searchPattern="*.js" searchSubdirectories="true" />
+    </scripts>
+  <scripts>
+    <directory virtualPath="$/bower_components" searchPattern="*.js" searchSubdirectories="true" />
+  </scripts>
+
+    <settings>
+        <group name="Aviary editor">
+            <setting>
+                <name>vc_module_aviary_image_editor.General.String</name>
+                <valueType>string</valueType>
+                <defaultValue>qwerty</defaultValue>
+                <title>String</title>
+                <description>A text setting</description>
+            </setting>
+            <setting>
+                <name>vc_module_aviary_image_editor.General.Password</name>
+                <valueType>secureString</valueType>
+                <defaultValue>qwerty</defaultValue>
+                <title>Password</title>
+                <description>A secure text setting</description>
+            </setting>
+            <setting>
+                <name>vc_module_aviary_image_editor.General.Integer</name>
+                <valueType>integer</valueType>
+                <defaultValue>123</defaultValue>
+                <title>Integer</title>
+                <description>An integer setting</description>
+            </setting>
+            <setting>
+                <name>vc_module_aviary_image_editor.General.Decimal</name>
+                <valueType>decimal</valueType>
+                <defaultValue>123.45</defaultValue>
+                <title>Decimal</title>
+                <description>A decimal setting</description>
+            </setting>
+        </group>
+        <group name="Advanced">
+            <setting>
+                <name>vc_module_aviary_image_editor.Advanced.Boolean1</name>
+                <valueType>boolean</valueType>
+                <defaultValue>true</defaultValue>
+                <title>Boolean1</title>
+                <description>A boolean setting</description>
+            </setting>
+            <setting>
+                <name>vc_module_aviary_image_editor.Advanced.Boolean2</name>
+                <valueType>boolean</valueType>
+                <defaultValue>false</defaultValue>
+                <title>Boolean2</title>
+                <description>A boolean setting</description>
+            </setting>
+            <setting>
+                <name>vc_module_aviary_image_editor.Advanced.Select</name>
+                <valueType>string</valueType>
+                <allowedValues>
+                    <value>qwerty</value>
+                    <value>asdfgh</value>
+                    <value>zxcvb</value>
+                </allowedValues>
+                <defaultValue>asdfgh</defaultValue>
+                <title>Select</title>
+                <description>Select one of the allowed values</description>
+            </setting>
+        </group>
+    </settings>
+</module>
