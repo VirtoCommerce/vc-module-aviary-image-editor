@@ -1,8 +1,8 @@
 ﻿using System.Web.Http;
 
-namespace vc_module_aviary_image_editor.Controllers.Api
+namespace VirtoCommerce.AviaryImageEditor.Web.Controllers.Api
 {
-    [RoutePrefix("api/vc_module_aviary_image_editor")]
+    [RoutePrefix("api/virtoCommerce.imageEditor")]
 public class ManagedModuleController : ApiController
 {
     // GET: api/managedModule
@@ -10,7 +10,7 @@ public class ManagedModuleController : ApiController
     [Route("")]
     public IHttpActionResult Get()
     {
-        return Ok(new { result = "Hello world!" });
+        return Ok(new { result = "Loading success" });
     }
 }
 }

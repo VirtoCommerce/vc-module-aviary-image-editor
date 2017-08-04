@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "vc_module_aviary_image_editor", "vc-module-aviary-image-editor\vc_module_aviary_image_editor.csproj", "{23A97AE9-E5B6-47B6-B572-1BF1317F7884}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtoCommerce.AviaryImageEditorModule.Web", "vc-module-aviary-image-editor\VirtoCommerce.AviaryImageEditorModule.Web.csproj", "{23A97AE9-E5B6-47B6-B572-1BF1317F7884}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
