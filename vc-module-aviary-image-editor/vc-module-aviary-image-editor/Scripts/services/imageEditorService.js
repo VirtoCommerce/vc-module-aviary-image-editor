@@ -1,6 +1,6 @@
 ﻿angular.module('virtoCommerce.aviaryImageEditorModule')
-    .service('virtoCommerce.aviaryImageEditorModule.imageEditorService', ['FileUploader', 'platformWebApp.assets.api',
-        function (FileUploader, assets) {
+    .service('virtoCommerce.aviaryImageEditorModule.imageEditorService', ['FileUploader', 'platformWebApp.assets.api', 'platformWebApp.settings',
+        function (FileUploader, assets, settings) {
             var editor;
 
             function addImage(imageID, newURL, blade) {
@@ -33,9 +33,9 @@
                 });
             };
 
-            this.createImageEditorObject = function (blade) {
+            this.createImageEditorObject = function (blade, apiKey) {
                 return editor = new Aviary.Feather({
-                    apiKey: '73ff4de4c7114659bed79f35d368d105',
+                    apiKey: apiKey,
                     apiVersion: 3,
                     theme: 'light',
                     tools: 'all',

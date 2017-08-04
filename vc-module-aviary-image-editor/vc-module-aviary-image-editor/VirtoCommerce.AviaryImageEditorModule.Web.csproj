@@ -95,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="imageEditorLogo1.ico" />
-    <Content Include="Localization\en.VirtoCommerce.ImageEditor.json" />
+    <Content Include="Localizations\en.VirtoCommerce.ImageEditor.json" />
     <None Include="module.ignore" />
     <None Include="packages.config" />
     <None Include="app.config" />

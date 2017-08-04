@@ -2,11 +2,11 @@
 <module>
   <id>VirtoCommerce.imageEditorModule</id>
   <version>1.0.0</version>
-  <platformVersion>2.13.12</platformVersion>
+  <platformVersion>2.13.14</platformVersion>
 
   <dependencies>
-    <dependency id="VirtoCommerce.Core" version="2.24.5" />
-    <dependency id="VirtoCommerce.Catalog" version="2.18.9" />
+    <dependency id="VirtoCommerce.Core" version="2.24.6" />
+    <dependency id="VirtoCommerce.Catalog" version="2.18.10" />
   </dependencies>
 
   <title>Image editor module</title>
@@ -42,5 +42,4 @@
       </setting>
     </group>
   </settings>
-
 </module>
