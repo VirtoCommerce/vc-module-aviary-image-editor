@@ -94,48 +94,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bower.js" />
-    <Content Include="bower_components\angular-aviary\angular-aviary.js" />
-    <Content Include="bower_components\angular-aviary\angular-aviary.min.js" />
-    <Content Include="bower_components\angular-aviary\Gruntfile.js" />
-    <Content Include="bower_components\angular-aviary\karma.conf.js" />
-    <Content Include="bower_components\angular-aviary\lib\aviary.js" />
-    <Content Include="bower_components\angular\angular-csp.css" />
-    <Content Include="bower_components\angular\angular.js" />
-    <Content Include="bower_components\angular\angular.min.js" />
-    <Content Include="bower_components\angular\index.js" />
-    <Content Include="bower_components\angular\.bower.json" />
-    <Content Include="bower_components\angular\angular.min.js.gzip" />
-    <Content Include="bower_components\angular\angular.min.js.map" />
-    <Content Include="bower_components\angular\bower.json" />
-    <Content Include="bower_components\angular\LICENSE.md" />
-    <Content Include="bower_components\angular\package.json" />
-    <Content Include="bower_components\angular\README.md" />
-    <Content Include="bower_components\angular-aviary\.bower.json" />
-    <Content Include="bower_components\angular-aviary\angular-aviary.min.js.map" />
-    <Content Include="bower_components\angular-aviary\bower.json" />
-    <Content Include="bower_components\angular-aviary\LICENSE.md" />
-    <Content Include="bower_components\angular-aviary\package.json" />
-    <Content Include="bower_components\angular-aviary\README.md" />
     <None Include="module.ignore" />
-    <Content Include="bower_components\webcomponentsjs\.bower.json" />
-    <Content Include="bower_components\webcomponentsjs\bower.json" />
-    <Content Include="bower_components\webcomponentsjs\build.log" />
-    <Content Include="bower_components\webcomponentsjs\CustomElements.js" />
-    <Content Include="bower_components\webcomponentsjs\CustomElements.min.js" />
-    <Content Include="bower_components\webcomponentsjs\HTMLImports.js" />
-    <Content Include="bower_components\webcomponentsjs\HTMLImports.min.js" />
-    <Content Include="bower_components\webcomponentsjs\MutationObserver.js" />
-    <Content Include="bower_components\webcomponentsjs\MutationObserver.min.js" />
-    <Content Include="bower_components\webcomponentsjs\package.json" />
-    <Content Include="bower_components\webcomponentsjs\README.md" />
-    <Content Include="bower_components\webcomponentsjs\ShadowDOM.js" />
-    <Content Include="bower_components\webcomponentsjs\ShadowDOM.min.js" />
-    <Content Include="bower_components\webcomponentsjs\webcomponents-lite.js" />
-    <Content Include="bower_components\webcomponentsjs\webcomponents-lite.min.js" />
-    <Content Include="bower_components\webcomponentsjs\webcomponents.js" />
-    <Content Include="bower_components\webcomponentsjs\webcomponents.min.js" />
-    <Content Include="package.json" />
     <None Include="packages.config" />
     <None Include="Content\help\index.html" />
     <None Include="Content\help\stylesheet.css" />
@@ -153,6 +112,7 @@
     <Content Include="Content\assets\image.jpg" />
     <Content Include="module.manifest" />
     <Content Include="Content\css\vc_module_aviary_image_editor.css" />
+    <Content Include="Scripts\blades\aviary.js" />
     <Content Include="Scripts\blades\helloWorld_blade1.js" />
     <Content Include="Scripts\blades\helloWorld_blade1.tpl.html" />
     <Content Include="Scripts\vc_module_aviary_image_editor.js" />
@@ -163,10 +123,7 @@
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bower_components\polymer\" />
-    <Folder Include="Scripts\Directives\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

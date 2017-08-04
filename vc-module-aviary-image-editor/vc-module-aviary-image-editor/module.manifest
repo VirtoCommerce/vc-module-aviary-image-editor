@@ -24,9 +24,6 @@
     <scripts>
         <directory virtualPath="$/Scripts" searchPattern="*.js" searchSubdirectories="true" />
     </scripts>
-  <scripts>
-    <directory virtualPath="$/bower_components" searchPattern="*.js" searchSubdirectories="true" />
-  </scripts>
 
     <settings>
         <group name="Aviary editor">

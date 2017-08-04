@@ -26,8 +26,9 @@ angular.module(moduleTemplateName, ['virtoCommerce.catalogModule'])
                 });
         }
     ])
-    .run(['$rootScope', 'platformWebApp.mainMenuService', 'platformWebApp.widgetService', '$state', 'platformWebApp.toolbarService', 'platformWebApp.bladeNavigationService',
-        function ($rootScope, mainMenuService, widgetService, $state, toolbarService, bladeNavigationService) {
+    .run(['$rootScope', 'platformWebApp.mainMenuService', 'platformWebApp.widgetService', '$state', 'platformWebApp.toolbarService',
+        'platformWebApp.bladeNavigationService', 'FileUploader', 'virtoCommerce.catalogModule.imageTools', 'platformWebApp.assets.api', 'platformWebApp.settings',
+        function ($rootScope, mainMenuService, widgetService, $state, toolbarService, bladeNavigationService, FileUploader, imageTools,assets, settings) {
             //Register module in main 
             var menuItem = {
                 path: 'browse/vc_module_aviary_image_editor',
@@ -39,45 +40,69 @@ angular.module(moduleTemplateName, ['virtoCommerce.catalogModule'])
             };
             mainMenuService.addMenuItem(menuItem);
 
-            //function (toolbarService, bladeNavigationService) {
-            //    //Register module in main menus
-            //    var imageEditorCommand = {
-            //        name: "Editor",
-            //        icon: 'fa fa-paint-brush',
-            //        executeMethod: function (blade) {
-            //            var featherEditor = new Aviary.Feather({
-            //                apiKey: '73ff4de4c7114659bed79f35d368d105',
-            //                apiVersion: 3,
-            //                theme: 'light',
-            //                tools: 'all',
-            //                appendTo: '',
-            //                onSave: function (imageID, newURL) {
-            //                    $scope.isValid = true;
-            //                    console.log(imageID, newURL);
-            //                    var img = document.getElementById(imageID);
-            //                    selectedImage.url = newURL;
-            //                },
-            //                onError: function (errorObj) {
-            //                    alert(errorObj.message);
-            //                }
-            //            });
+            function getImageUrl(code, imageType) {
+                var folderUrl = 'catalog/' + code + (imageType ? '/' + imageType : '');
+                return { folderUrl: '/' + folderUrl, relative: 'api/platform/assets?folderUrl=' + folderUrl };
+            };
 
-            //            blade.launchEditor = function (id, url) {
-            //                console.log(id, url);
-            //                featherEditor.launch({
-            //                    image: id,
-            //                    url: url
-            //                });
-            //                return false;
-            //            }
-            //            // bladeNavigationService.showBlade(newBlade, blade);
-            //        },
-            //        canExecuteMethod: function () {
-            //            return true;
-            //        }
-            //    };
-            //    toolbarService.register(imageEditorCommand, 'virtoCommerce.catalogModule.imagesController');
-            //}
+            function addImage(imageID, newURL, blade) {
+                if (newURL) {
+                    assets.uploadFromUrl({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, url: newURL }, function (data) {
+                        _.each(data, function (x) {
+                            x.id = blade.selectedImages[0].id;
+                            x.sortOrder = blade.currentEntities.length;
+                            x.name = blade.item.code + 'D' + x.sortOrder + '.png';
+                            x.isImage = true;
+                            blade.currentEntities.push(x);
+                        });
+                        newURL = undefined;
+                    });
+                }
+            }
 
+            //register module in main menus
+            var imageeditorcommand = {
+                name: "Edit",
+                icon: 'fa fa-paint-brush',
+                index: 100,
+                executeMethod: function (blade) {
+                    var uploader = blade.uploader = new FileUploader({
+                        blade: blade,
+                        headers: { Accept: 'application/json' },
+                        autoUpload: true,
+                        removeAfterUpload: true
+                    });
+
+                    var featherEditor = new Aviary.Feather({
+                        apiKey: '73ff4de4c7114659bed79f35d368d105',
+                        apiVersion: 3,
+                        theme: 'light',
+                        tools: 'all',
+                        appendTo: '',
+                        onSave: function (imageID, newURL) {
+                            addImage(imageID, newURL, blade);
+                        },
+                        onError: function (errorObj) {
+                            alert(errorObj.message);
+                        },
+                        onLoad: function () {
+                            
+                            featherEditor.launch({
+                                image: blade.selectedImages[0].id,
+                                url: blade.selectedImages[0].url
+                            });
+                        }
+                    });
+                    featherEditor.launch({
+                        image: blade.selectedImages[0].id,
+                        url: blade.selectedImages[0].url
+                    });
+                },
+                canExecuteMethod: function (blade) {
+                    if (blade.selectedImages.length != 0 && blade.selectedImages.length < 2)
+                        return true;
+                }
+            };
+            toolbarService.register(imageeditorcommand, 'virtoCommerce.catalogModule.imagesController');
         }
     ]);
