@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<module>
+  <id>VirtoCommerce.imageEditorModule</id>
+  <version>1.0.0</version>
+  <platformVersion>2.13.14</platformVersion>
+
+  <dependencies>
+    <dependency id="VirtoCommerce.Core" version="2.24.6" />
+    <dependency id="VirtoCommerce.Catalog" version="2.18.10" />
+  </dependencies>
+
+  <title>Image editor module</title>
+  <description>Edit your images in catalog module</description>
+  <authors>
+    <author>Virto Commerce</author>
+    <author>Valeriy Krashenko</author>
+  </authors>
+  <owners>
+    <owner>Virto Commerce</owner>
+  </owners>
+  <releaseNotes>First version.</releaseNotes>
+  <copyright>Copyright © 2011-2017 Virto Commerce. All rights reserved</copyright>
+  <tags>imageEditor</tags>
+
+  <assemblyFile>VirtoCommerce.AviaryImageEditorModule.Web.dll</assemblyFile>
+  <moduleType>VirtoCommerce.AviaryImageEditorModule.Web.Module, VirtoCommerce.AviaryImageEditorModule.Web</moduleType>
+
+  <styles>
+    <directory virtualPath="$/Content/css" searchPattern="*.css" searchSubdirectories="true" />
+  </styles>
+  <scripts>
+    <directory virtualPath="$/Scripts" searchPattern="*.js" searchSubdirectories="true" />
+  </scripts>
+  <settings>
+    <group name="ImageEditor|apiKey">
+      <setting>
+        <name>ImageEditor.Aviary.ApiKey</name>
+        <valueType>string</valueType>
+        <defaultValue>73ff4de4c7114659bed79f35d368d105</defaultValue>
+        <title>Description</title>
+        <description>You can get your own API key on aviary.com</description>
+      </setting>
+    </group>
+  </settings>
+</module>
