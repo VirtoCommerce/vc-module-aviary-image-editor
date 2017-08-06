@@ -94,11 +94,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="imageEditorLogo1.ico" />
+    <Content Include="Content\logo.png" />
+    <Content Include="gulpfile.js" />
     <Content Include="Localizations\en.VirtoCommerce.ImageEditor.json" />
+    <Content Include="bower.json" />
     <None Include="module.ignore" />
     <None Include="packages.config" />
     <None Include="app.config" />
+    <Content Include="package.json" />
     <None Include="Web.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -110,14 +113,18 @@
   <ItemGroup>
     <Content Include="module.manifest" />
     <Content Include="Content\css\image-editor.css" />
-    <Content Include="Scripts\blades\aviary.js" />
+    <Content Include="Scripts\allPackages.js" />
     <Content Include="Scripts\blades\image-editor.js" />
     <Content Include="Scripts\blades\image-editor.tpl.html" />
+    <Content Include="Scripts\directives\aviary.js" />
     <Content Include="Scripts\services\imageEditorService.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\resources\imageEditorApi.js" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Controllers\Api\AviaryImageEditorController.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -130,7 +137,8 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>imageEditorLogo1.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != '' And Exists('$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets')" />

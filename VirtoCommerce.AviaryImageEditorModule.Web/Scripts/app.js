@@ -49,15 +49,17 @@ angular.module(moduleTemplateName, [])
                 icon: 'fa fa-paint-brush',
                 index: 100,
                 executeMethod: function (blade) {
-                    var apiKey = settings.getValues({ id: 'ImageEditor.Aviary.ApiKey' }, function(data){
-                         return data[0];
+                    var apiKey=
+                    settings.get({ id: 'ImageEditor.Aviary.ApiKey' }, function (data) {
+                        return data.value;
                     });
                     var uploader = imageEditorService.createUploader(blade);
-                    var featherEditor = imageEditorService.createImageEditorObject(blade, apiKey);
+                    var featherEditor = imageEditorService.createImageEditorObject(blade, apiKey);  
+
                     featherEditor.launch({
-                            image: blade.selectedImages[0].id,
-                            url: blade.selectedImages[0].url
-                        });
+                        image: blade.selectedImages[0].id,
+                        url: blade.selectedImages[0].url
+                    });
                 },
                 canExecuteMethod: function (blade) {
                     //settings.getValues({ id: 'ImageEditor.Aviary.ApiKey' }, function (apiKey) {

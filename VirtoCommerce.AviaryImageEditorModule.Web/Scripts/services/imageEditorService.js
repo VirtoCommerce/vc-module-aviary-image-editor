@@ -4,6 +4,7 @@
             var editor;
 
             function addImage(imageID, newURL, blade) {
+                console.log(newURL);
                 if (newURL) {
                     assets.uploadFromUrl({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, url: newURL }, function (data) {
                         _.each(data, function (x) {

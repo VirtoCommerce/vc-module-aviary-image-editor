@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <module>
-  <id>VirtoCommerce.imageEditorModule</id>
+  <id>VirtoCommerce.AviaryImageEditorModule</id>
   <version>1.0.0</version>
   <platformVersion>2.13.14</platformVersion>
 
@@ -20,7 +20,7 @@
   </owners>
   <releaseNotes>First version.</releaseNotes>
   <copyright>Copyright © 2011-2017 Virto Commerce. All rights reserved</copyright>
-  <tags>imageEditor</tags>
+  <tags>Image Editor</tags>
 
   <assemblyFile>VirtoCommerce.AviaryImageEditorModule.Web.dll</assemblyFile>
   <moduleType>VirtoCommerce.AviaryImageEditorModule.Web.Module, VirtoCommerce.AviaryImageEditorModule.Web</moduleType>
@@ -32,12 +32,12 @@
     <directory virtualPath="$/Scripts" searchPattern="*.js" searchSubdirectories="true" />
   </scripts>
   <settings>
-    <group name="ImageEditor|apiKey">
+    <group name="ImageEditor|General">
       <setting>
         <name>ImageEditor.Aviary.ApiKey</name>
         <valueType>string</valueType>
         <defaultValue>73ff4de4c7114659bed79f35d368d105</defaultValue>
-        <title>Description</title>
+        <title>API key</title>
         <description>You can get your own API key on aviary.com</description>
       </setting>
     </group>
