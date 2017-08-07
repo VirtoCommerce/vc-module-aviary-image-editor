@@ -4,7 +4,6 @@
             var editor;
 
             function addImage(imageID, newURL, blade) {
-                console.log(newURL);
                 if (newURL) {
                     assets.uploadFromUrl({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, url: newURL }, function (data) {
                         _.each(data, function (x) {
@@ -13,6 +12,7 @@
                             x.sortOrder = blade.currentEntities.length;
                             x.name = blade.item.code + 'D' + x.sortOrder + '.png';
                             x.isImage = true;
+                            blade.selectedImages = [];
                             blade.currentEntities.push(x);
                         });
                         newURL = undefined;
