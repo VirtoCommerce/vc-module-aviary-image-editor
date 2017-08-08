@@ -30,9 +30,9 @@ angular.module(moduleTemplateName, [])
         }
     ])
     .run(['$rootScope', 'platformWebApp.mainMenuService', 'platformWebApp.widgetService', '$state', 'platformWebApp.toolbarService',
-        'platformWebApp.bladeNavigationService', 'platformWebApp.settings', 'virtoCommerce.aviaryImageEditorModule.imageEditorService',
-        function ($rootScope, mainMenuService, widgetService, $state, toolbarService, bladeNavigationService, settings, imageEditorService) {
-            //Register module in main 
+        'platformWebApp.bladeNavigationService', 'platformWebApp.settings', 'virtoCommerce.aviaryImageEditorModule.imageEditorService', 'platformWebApp.dialogService',
+        function ($rootScope, mainMenuService, widgetService, $state, toolbarService, bladeNavigationService, settings, imageEditorService, dialogService) {
+            //Register module in main
             var menuItem = {
                 path: 'browse/virtoCommerce.imageEditor',
                 icon: 'fa fa-paint-brush',
@@ -43,6 +43,12 @@ angular.module(moduleTemplateName, [])
             };
             //mainMenuService.addMenuItem(menuItem);
 
+            //var dialog = {
+            //    id: "invalidKey",
+            //    title: 'Aviary image editor',
+            //    message: "You use default API key. Get your personal API key for commercial using. You can change key in settings",
+            //}
+
             //register module in main menus
             var imageEditorCommand = {
                 name: "editor.blades.toolbar.iconName",
@@ -50,26 +56,25 @@ angular.module(moduleTemplateName, [])
                 index: 100,
                 executeMethod: function (blade) {
                     var apiKey=
-                    settings.get({ id: 'ImageEditor.Aviary.ApiKey' }, function (data) {
+                        settings.get({ id: 'ImageEditor.Aviary.ApiKey' }, function (data) {
+                            //if (data.value = '73ff4de4c7114659bed79f35d368d105') {
+                            //    dialogService.showNotificationDialog(dialog)
+                            //};
                         return data.value;
                     });
                     var uploader = imageEditorService.createUploader(blade);
                     var featherEditor = imageEditorService.createImageEditorObject(blade, apiKey);  
-
                     featherEditor.launch({
                         image: blade.selectedImages[0].id,
                         url: blade.selectedImages[0].url
                     });
                 },
                 canExecuteMethod: function (blade) {
-                    //settings.getValues({ id: 'ImageEditor.Aviary.ApiKey' }, function (apiKey) {
-                    //    if (!apiKey[0])
-                    //        return false;
-                    //});
                     if (blade.selectedImages.length != 0 && blade.selectedImages.length < 2)
                         return true;
                 }
             };
+
             toolbarService.register(imageEditorCommand, 'virtoCommerce.catalogModule.imagesController');
         }
     ]);
