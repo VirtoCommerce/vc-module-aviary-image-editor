@@ -3,7 +3,7 @@
         function (FileUploader, assets, settings) {
             var editor;
 
-            function addImage(imageID, newURL, blade) {
+            function addImageToCatalog(imageID, newURL, blade) {
                 if (newURL) {
                     assets.uploadFromUrl({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, url: newURL }, function (data) {
                         _.each(data, function (x) {
@@ -24,7 +24,7 @@
                 }
             };
 
-            function addImageFromUrl(newURL, blade) {
+            function addImagetoAssets(newURL, blade) {
                 if (newURL) {
                     blade.uploadCompleted = false;
                     assets.uploadFromUrl({ folderUrl: blade.currentEntity.url, url: newURL }, function (data) {
@@ -50,7 +50,7 @@
             };
 
             this.createAssetsUploader = function (blade) {
-                var uploader = blade.uploader = new FileUploader({
+                return blade.uploader = new FileUploader({
                     blade: blade,
                     headers: { Accept: 'application/json' },
                     url: 'api/platform/assets?folderUrl=' + blade.currentEntity.url,
@@ -60,7 +60,7 @@
                 });
             }
 
-            this.createImageEditorObject = function (blade, apiKey, preload) {
+            this.createImageEditorObject = function (blade, apiKey, name) {
                 return editor = new Aviary.Feather({
                     apiKey: apiKey,
                     apiVersion: 3,
@@ -68,8 +68,10 @@
                     tools: 'all',
                     appendTo: '',
                     onSave: function (imageID, newURL) {
-                        addImageFromUrl(newURL, blade);
-                        //addImage(imageID, newURL, blade);
+                        if (name == 'assets')
+                            addImagetoAssets(newURL, blade);
+                        else 
+                           addImagetoCatalog(imageID, newURL, blade);
                     },
                     onError: function (errorObj) {
                         alert(errorObj.message);
