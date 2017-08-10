@@ -3,19 +3,34 @@
         function (FileUploader, assets, settings) {
             var editor;
 
-            function addImage(imageID, newURL, blade) {
+            function addImageToCatalog(imageID, newURL, blade) {
                 if (newURL) {
                     assets.uploadFromUrl({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, url: newURL }, function (data) {
                         _.each(data, function (x) {
                             blade.currentEntities = _.without(blade.currentEntities, blade.selectedImages[0]);
-                            x.id = blade.selectedImages[0].id;
-                            x.sortOrder = blade.currentEntities.length;
-                            x.name = blade.item.code + 'D' + x.sortOrder + '.png';
-                            x.isImage = true;
-                            blade.selectedImages = [];
+                            if (blade.item) {
+                                x.id = blade.selectedImages[0].id;
+                                x.sortOrder = blade.currentEntities.length;
+                                x.name = blade.item.code + 'D' + x.sortOrder + '.png';
+                                x.isImage = true;
+                                blade.selectedImages = [];
+                            }
+                            else {
+                            }
                             blade.currentEntities.push(x);
                         });
                         newURL = undefined;
+                    });
+                }
+            };
+
+            function addImagetoAssets(newURL, blade) {
+                if (newURL) {
+                    blade.uploadCompleted = false;
+                    assets.uploadFromUrl({ folderUrl: blade.currentEntity.url, url: newURL }, function (data) {
+                        blade.refresh();
+                        blade.uploadCompleted = true;
+                        blade.selectedImages = [];
                     });
                 }
             };
@@ -25,7 +40,7 @@
                 return { folderUrl: '/' + folderUrl, relative: 'api/platform/assets?folderUrl=' + folderUrl };
             };
 
-            this.createUploader = function (blade) {
+            this.createCatalogUploader = function (blade) {
                 return blade.uploader = new FileUploader({
                     blade: blade,
                     headers: { Accept: 'application/json' },
@@ -34,7 +49,18 @@
                 });
             };
 
-            this.createImageEditorObject = function (blade, apiKey) {
+            this.createAssetsUploader = function (blade) {
+                return blade.uploader = new FileUploader({
+                    blade: blade,
+                    headers: { Accept: 'application/json' },
+                    url: 'api/platform/assets?folderUrl=' + blade.currentEntity.url,
+                    method: 'POST',
+                    //autoUpload: true,
+                    removeAfterUpload: true
+                });
+            }
+
+            this.createImageEditorObject = function (blade, apiKey, name) {
                 return editor = new Aviary.Feather({
                     apiKey: apiKey,
                     apiVersion: 3,
@@ -42,7 +68,10 @@
                     tools: 'all',
                     appendTo: '',
                     onSave: function (imageID, newURL) {
-                        addImage(imageID, newURL, blade);
+                        if (name == 'assets')
+                            addImagetoAssets(newURL, blade);
+                        else 
+                           addImagetoCatalog(imageID, newURL, blade);
                     },
                     onError: function (errorObj) {
                         alert(errorObj.message);
