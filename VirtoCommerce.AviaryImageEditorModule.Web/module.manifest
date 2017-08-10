@@ -36,7 +36,7 @@
       <setting>
         <name>ImageEditor.Aviary.ApiKey</name>
         <valueType>string</valueType>
-        <defaultValue>73ff4de4c7114659bed79f35d368d105</defaultValue>
+        <defaultValue></defaultValue>
         <title>API key</title>
         <description>You can get your own API key on aviary.com</description>
       </setting>

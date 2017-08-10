@@ -1,7 +1,19 @@
 ﻿angular.module('virtoCommerce.aviaryImageEditorModule')
-    .service('virtoCommerce.aviaryImageEditorModule.imageEditorService', ['FileUploader', 'platformWebApp.assets.api', 'platformWebApp.settings',
-        function (FileUploader, assets, settings) {
+    .service('virtoCommerce.aviaryImageEditorModule.imageEditorService', ['FileUploader', 'platformWebApp.assets.api', 'platformWebApp.settings', 'platformWebApp.bladeNavigationService',
+        function (FileUploader, assets, settings, bladeNavigationService) {
             var editor;
+
+            function openDictionarySettingManagement(blade) {
+                var newBlade = {
+                    id: 'settingDetailChild',
+                    isApiSave: true,
+                    currentEntityId: 'ImageEditor.Aviary.ApiKey',
+                    parentRefresh: function (data) { blade.apiKey = data },
+                    controller: 'platformWebApp.settingDictionaryController',
+                    template: '$(Platform)/Scripts/app/settings/blades/setting-dictionary.tpl.html'
+                };
+                bladeNavigationService.showBlade(newBlade, blade);
+            };
 
             function addImageToCatalog(imageID, newURL, blade) {
                 if (newURL) {
@@ -24,7 +36,7 @@
                 }
             };
 
-            function addImagetoAssets(newURL, blade) {
+            function addImageToAssets(newURL, blade) {
                 if (newURL) {
                     blade.uploadCompleted = false;
                     assets.uploadFromUrl({ folderUrl: blade.currentEntity.url, url: newURL }, function (data) {
@@ -60,21 +72,22 @@
                 });
             }
 
-            this.createImageEditorObject = function (blade, apiKey, name) {
+            this.createImageEditorObject = function (blade, name) {
                 return editor = new Aviary.Feather({
-                    apiKey: apiKey,
+                    apiKey: blade.apiKey,
                     apiVersion: 3,
                     theme: 'light',
                     tools: 'all',
                     appendTo: '',
                     onSave: function (imageID, newURL) {
                         if (name == 'assets')
-                            addImagetoAssets(newURL, blade);
+                            addImageToAssets(newURL, blade);
                         else 
-                           addImagetoCatalog(imageID, newURL, blade);
+                           addImageToCatalog(imageID, newURL, blade);
                     },
                     onError: function (errorObj) {
                         alert(errorObj.message);
+                        openDictionarySettingManagement(blade);
                     },
                     onLoad: function () {
                         editor.launch({
