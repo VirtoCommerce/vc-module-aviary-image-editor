@@ -2,7 +2,7 @@
   "editor": {
     "blades": {
       "title": "Aviary image editor",
-      "subtitle": "Edit your image",
+      "subtitle": "API key manager",
       "toolbar": {
         "iconName": "Edit"
       }

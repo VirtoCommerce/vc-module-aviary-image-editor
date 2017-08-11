@@ -3,14 +3,15 @@
         function (FileUploader, assets, settings, bladeNavigationService) {
             var editor;
 
-            function openDictionarySettingManagement(blade) {
+            function openAviarySettingManagement(blade) {
                 var newBlade = {
-                    id: 'settingDetailChild',
-                    isApiSave: true,
-                    currentEntityId: 'ImageEditor.Aviary.ApiKey',
-                    parentRefresh: function (data) { blade.apiKey = data },
-                    controller: 'platformWebApp.settingDictionaryController',
-                    template: '$(Platform)/Scripts/app/settings/blades/setting-dictionary.tpl.html'
+                    id: 'settingsSection',
+                    data: blade.apiKeyData,
+                    moduleId: 'itemImage',
+                    title: 'editor.blades.title',
+                    subtitle: 'editor.blades.subtitle',
+                    controller: 'platformWebApp.settingsDetailController',
+                    template: '$(Platform)/Scripts/app/settings/blades/settings-detail.tpl.html',
                 };
                 bladeNavigationService.showBlade(newBlade, blade);
             };
@@ -22,7 +23,8 @@
                             blade.currentEntities = _.without(blade.currentEntities, blade.selectedImages[0]);
                             if (blade.item) {
                                 x.id = blade.selectedImages[0].id;
-                                x.sortOrder = blade.currentEntities.length;
+                                x.group = blade.selectedImages[0].group;
+                                x.sortOrder = blade.selectedImages[0].sortOrder;
                                 x.name = blade.item.code + 'D' + x.sortOrder + '.png';
                                 x.isImage = true;
                                 blade.selectedImages = [];
@@ -74,7 +76,7 @@
 
             this.createImageEditorObject = function (blade, name) {
                 return editor = new Aviary.Feather({
-                    apiKey: blade.apiKey,
+                    apiKey: blade.apiKeyData[0].value,
                     apiVersion: 3,
                     theme: 'light',
                     tools: 'all',
@@ -82,12 +84,12 @@
                     onSave: function (imageID, newURL) {
                         if (name == 'assets')
                             addImageToAssets(newURL, blade);
-                        else 
-                           addImageToCatalog(imageID, newURL, blade);
+                        else
+                            addImageToCatalog(imageID, newURL, blade);
                     },
                     onError: function (errorObj) {
                         alert(errorObj.message);
-                        openDictionarySettingManagement(blade);
+                        openAviarySettingManagement(blade);
                     },
                     onLoad: function () {
                         editor.launch({
