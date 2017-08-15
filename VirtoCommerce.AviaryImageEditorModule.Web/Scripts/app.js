@@ -1,5 +1,4 @@
-﻿//Call this to register our module to main application
-var moduleTemplateName = "virtoCommerce.aviaryImageEditorModule";
+﻿var moduleTemplateName = "virtoCommerce.aviaryImageEditorModule";
 
 if (AppDependencies != undefined) {
     AppDependencies.push(moduleTemplateName);
@@ -43,7 +42,7 @@ angular.module(moduleTemplateName, [])
             };
             //mainMenuService.addMenuItem(menuItem);
 
-            //register module in main menus
+            //Register toolbar button
             var imageEditorCommand = {
                 name: "editor.blades.toolbar.iconName",
                 icon: 'fa fa-paint-brush',
@@ -51,36 +50,36 @@ angular.module(moduleTemplateName, [])
                 executeMethod: function (blade) {
                     settings.get({ id: 'ImageEditor.Aviary.ApiKey' }, function (data) {
                         blade.apiKeyData = [data];
-                            if (!blade.selectedImages[0].id) {
-                                blade.selectedImages[0].id = blade.selectedImages[0].name;
-                                var uploader = imageEditorService.createAssetsUploader(blade);
-                                var featherEditor = imageEditorService.createImageEditorObject(blade, 'assets');
-                            }
-                            else {
-                                var uploader = imageEditorService.createCatalogUploader(blade);
-                                var featherEditor = imageEditorService.createImageEditorObject(blade, 'catalog');
-                        }
+                        var selectedImage = blade.selectedImages[0];
 
+                        //assets
+                        if (!selectedImage.id) {
+                            selectedImage.id = selectedImage.name;
+                            var featherEditor = imageEditorService.createImageEditorObject(blade, selectedImage);
                             featherEditor.launch({
-                                image: blade.selectedImages[0].id,
-                                url: blade.selectedImages[0].url
+                                image: selectedImage.id,
+                                url: selectedImage.noCacheUrl
                             });
-                        })
+                        }
+                        //catalog
+                        else {
+                            var featherEditor = imageEditorService.createImageEditorObject(blade, selectedImage);
+                            featherEditor.launch({
+                                image: selectedImage.id,
+                                url: selectedImage.url
+                            });
+                        }
+                    })
                 },
                 canExecuteMethod: function (blade) {
-                    if (!blade.selectedImages)
-                        blade.selectedImages = [];
-                    if (blade.$scope.gridApi && blade.$scope.gridApi.selection)
-                        blade.$scope.gridApi.selection.on.rowSelectionChanged(blade.$scope, function (rowEntity, colDef) {
-                            if (rowEntity.isSelected && !_.contains(blade.selectedImages, _.findWhere(blade.selectedImages, rowEntity.entity)) && rowEntity.entity.type != 'folder') {
-                                blade.selectedImages.push(rowEntity.entity);
-                            }
-                            else if (!rowEntity.isSelected) {
-                                blade.selectedImages = _.without(blade.selectedImages, _.findWhere(blade.selectedImages, rowEntity.entity));
-                            }
-                        });
-                    if (blade.selectedImages.length != 0 && blade.selectedImages.length < 2)
-                        return true;
+                    if (blade.$scope.gridApi && blade.$scope.gridApi.selection) {
+                        var selectedRows = blade.$scope.gridApi.selection.getSelectedRows();
+                        //exclude if selectedItem = folder
+                        blade.selectedImages = _.filter(selectedRows, function (x) { return x.type != 'folder' });
+                        if (_.first(blade.selectedImages) && blade.selectedImages.length == 1) {
+                            return true;
+                        }
+                    }
                 }
             };
 
