@@ -79,7 +79,7 @@
                     },
                     onError: function (errorObj) {
                         alert(errorObj.message);
-                        if (errorObj.code = 8)
+                        if (errorObj.code == 8)
                             openAviarySettingManagement(blade);
                     },
                     onLoad: function () {
