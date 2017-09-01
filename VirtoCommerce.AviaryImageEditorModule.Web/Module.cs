@@ -5,7 +5,6 @@ namespace VirtoCommerce.AviaryImageEditorModule.Web
 {
     public class Module : ModuleBase
     {
-        // private const string _connectionStringName = "VirtoCommerce";
         private readonly IUnityContainer _container;
 
         public Module(IUnityContainer container)

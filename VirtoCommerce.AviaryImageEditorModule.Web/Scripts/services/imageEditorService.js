@@ -28,10 +28,11 @@
             };
 
             function getImageUrl(relativeUrl) {
+                var folderUrl;
                 if (_.indexOf(relativeUrl, '/') == 0)
-                    var folderUrl = relativeUrl.slice(1, _.lastIndexOf(relativeUrl, '/'));
+                    folderUrl = relativeUrl.slice(1, _.lastIndexOf(relativeUrl, '/'));
                 else
-                    var folderUrl = relativeUrl.substr(0, _.lastIndexOf(relativeUrl, '/'));
+                    folderUrl = relativeUrl.substr(0, _.lastIndexOf(relativeUrl, '/'));
                 return { folderUrl: folderUrl, relative: 'api/platform/assets?folderUrl=' + folderUrl };
             };
 

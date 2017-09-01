@@ -117,8 +117,6 @@
     <Content Include="module.manifest" />
     <Content Include="Content\css\image-editor.css" />
     <Content Include="Scripts\allPackages.js" />
-    <Content Include="Scripts\blades\image-editor.js" />
-    <Content Include="Scripts\blades\image-editor.tpl.html" />
     <Content Include="Scripts\directives\aviary.js" />
     <Content Include="Scripts\services\imageEditorService.js" />
     <Content Include="Scripts\app.js" />
