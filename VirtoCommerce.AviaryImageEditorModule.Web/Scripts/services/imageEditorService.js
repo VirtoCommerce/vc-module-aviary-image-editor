@@ -1,6 +1,6 @@
 ﻿angular.module('virtoCommerce.aviaryImageEditorModule')
-    .service('virtoCommerce.aviaryImageEditorModule.imageEditorService', ['FileUploader', 'platformWebApp.assets.api', 'platformWebApp.settings', 'platformWebApp.bladeNavigationService',
-        function (FileUploader, assets, settings, bladeNavigationService) {
+    .service('virtoCommerce.aviaryImageEditorModule.imageEditorService', ['FileUploader', 'platformWebApp.assets.api', 'platformWebApp.settings', 'platformWebApp.bladeNavigationService', 'virtoCommerce.catalogModule.imageTools',
+        function (FileUploader, assets, settings, bladeNavigationService, imageTools) {
             var editor;
 
             function openAviarySettingManagement(blade) {
@@ -16,20 +16,6 @@
                 bladeNavigationService.showBlade(newBlade, blade);
             };
 
-            function addImageToCatalog(selectedImage, newURL, blade) {
-                assets.uploadFromUrl({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, url: newURL }, function (data) {
-                    _.each(data, function (x) {
-                        blade.currentEntities = _.without(blade.currentEntities, selectedImage);
-                        x.id = selectedImage.id;
-                        x.group = selectedImage.group;
-                        x.sortOrder = selectedImage.sortOrder;
-                        x.name = selectedImage.sortOrder + selectedImage.name;
-                        x.isImage = true;
-                        blade.selectedImages = [];
-                        blade.currentEntities.push(x);
-                    });
-                });
-            };
 
             function addImageToAssets(selectedImage, newURL, blade) {
                 blade.uploadCompleted = false;
@@ -46,6 +32,30 @@
                 return { folderUrl: '/' + folderUrl, relative: 'api/platform/assets?folderUrl=' + folderUrl };
             };
 
+            function replaceAndCreateImageBackup(image, newUrl, blade) {
+                assets.searchAssetItems({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, keyword: image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup' }, function (searchResult) {
+                    image.backupQuantity = searchResult.length;
+                    var backupName = image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup[' + (image.backupQuantity + 1) + '].jpg';
+                    assets.uploadFromUrl({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, url: image.url, name: backupName }, function (data) {
+                    });
+                    assets.uploadFromUrl({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, url: newUrl, name: image.name }, function (data) {
+                        _.each(data, function (x) {
+                            var request = { imageUrl: x.url, isRegenerateAll: true };
+                            blade.currentEntities = _.each(blade.currentEntities, function (z) { if (_.isEqual(z.id, image.id)) z.url = x.url + '?t=' + new Date().getTime() });
+                            blade.item.images = blade.currentEntities;
+                            _.each(blade.parentBlade.origItem.images, function (z) { if (_.isEqual(z.id, image.id)) z.url = x.url + '?t=' + new Date().getTime() });
+                            imageTools.generateThumbnails(request, function (response) {
+                                if (!response || response.error) {
+                                    bladeNavigationService.setError(response.error, blade);
+                                    blade.selectedImages = [];
+                                }
+                            });
+                            blade.selectedImages = [];
+                        });
+                    });
+                });
+            };
+
             this.createImageEditorObject = function (blade, selectedImage) {
                 return editor = new Aviary.Feather({
                     apiKey: blade.apiKeyData[0].value,
@@ -57,7 +67,7 @@
                         if (blade.id == 'assetList')
                             addImageToAssets(selectedImage, newURL, blade);
                         else
-                            addImageToCatalog(selectedImage, newURL, blade);
+                            replaceAndCreateImageBackup(selectedImage, newURL, blade);
                     },
                     onError: function (errorObj) {
                         alert(errorObj.message);

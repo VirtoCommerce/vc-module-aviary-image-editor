@@ -74,7 +74,6 @@ angular.module(moduleTemplateName, [])
                 canExecuteMethod: function (blade) {
                     if (blade.$scope.gridApi && blade.$scope.gridApi.selection) {
                         var selectedRows = blade.$scope.gridApi.selection.getSelectedRows();
-                        //exclude if selectedItem = folder
                         blade.selectedImages = _.filter(selectedRows, function (x) { return x.type != 'folder' });
                         if (_.first(blade.selectedImages) && blade.selectedImages.length == 1) {
                             return true;
