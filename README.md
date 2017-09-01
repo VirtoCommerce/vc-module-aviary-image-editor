@@ -1,6 +1,7 @@
 # VirtoCommerce.AviaryImageEditor
 VirtoCommerce.AviaryImageEditor module represents aviary image editor for customize your images content in VirtoCommerce.Catalog module.
 Key features:
+
 * catalog module image editor
 
 ![aviaryimageeditordemo](https://user-images.githubusercontent.com/29459286/29032693-a8e85b6c-7b92-11e7-953b-e84ba8d021b6.gif)
@@ -8,7 +9,6 @@ Key features:
 * assets image editor
 
 ![editassets](https://user-images.githubusercontent.com/29459286/29976167-6b1344b8-8f39-11e7-8c97-6da3ec36e109.gif)
-
 
 # Installation
 
