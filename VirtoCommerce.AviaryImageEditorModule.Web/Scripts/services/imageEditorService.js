@@ -27,30 +27,40 @@
                 });
             };
 
-            function getImageUrl(code, imageType) {
-                var folderUrl = 'catalog/' + code + (imageType ? '/' + imageType : '');
+            function getImageUrl(relativeUrl) {
+                if (_.indexOf(relativeUrl, '/') == 0)
+                    var folderUrl = relativeUrl.slice(1, _.lastIndexOf(relativeUrl, '/'));
+                else
+                    var folderUrl = relativeUrl.substr(0, _.lastIndexOf(relativeUrl, '/'));
                 return { folderUrl: folderUrl, relative: 'api/platform/assets?folderUrl=' + folderUrl };
             };
 
             function replaceAndCreateImageBackup(image, newUrl, blade) {
-                assets.searchAssetItems({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, keyword: image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup' }, function (searchResult) {
+                assets.searchAssetItems({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, keyword: image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup' }, function (searchResult) {
                     image.backupQuantity = searchResult.length;
                     var backupName = image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup[' + (image.backupQuantity + 1) + '].jpg';
-                    assets.uploadFromUrl({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, url: image.url, name: backupName }, function (data) {
+                    assets.uploadFromUrl({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, url: image.url, name: backupName }, function (data) {
                     });
-                    assets.uploadFromUrl({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, url: newUrl, name: image.name }, function (data) {
+                    assets.uploadFromUrl({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, url: newUrl, name: image.name }, function (data) {
                         _.each(data, function (x) {
                             var request = { imageUrl: x.url, isRegenerateAll: true };
+                            blade.currentEntities = _.each(blade.currentEntities, function (z) { if (_.isEqual(z.id, image.id)) z.url = x.url + '?t=' + new Date().getTime() });
+                            blade.item.images = blade.currentEntities;
+                            _.each(blade.parentBlade.origItem.images, function (z) { if (_.isEqual(z.id, image.id)) z.url = x.url + '?t=' + new Date().getTime() });
                             imageTools.generateThumbnails(request, function (response) {
                                 if (!response || response.error) {
                                     bladeNavigationService.setError(response.error, blade);
                                     blade.selectedImages = [];
+                                    editor.close();
                                 }
                             });
                             blade.selectedImages = [];
+                            editor.close();
                         });
                     });
+  
                 });
+           
             };
 
             this.createImageEditorObject = function (blade, selectedImage) {
