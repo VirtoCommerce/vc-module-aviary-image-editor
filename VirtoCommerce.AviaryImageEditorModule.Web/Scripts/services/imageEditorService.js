@@ -41,9 +41,6 @@
                     assets.uploadFromUrl({ folderUrl: getImageUrl(blade.item.code, blade.imageType).folderUrl, url: newUrl, name: image.name }, function (data) {
                         _.each(data, function (x) {
                             var request = { imageUrl: x.url, isRegenerateAll: true };
-                            blade.currentEntities = _.each(blade.currentEntities, function (z) { if (_.isEqual(z.id, image.id)) z.url = x.url + '?t=' + new Date().getTime() });
-                            blade.item.images = blade.currentEntities;
-                            _.each(blade.parentBlade.origItem.images, function (z) { if (_.isEqual(z.id, image.id)) z.url = x.url + '?t=' + new Date().getTime() });
                             imageTools.generateThumbnails(request, function (response) {
                                 if (!response || response.error) {
                                     bladeNavigationService.setError(response.error, blade);
