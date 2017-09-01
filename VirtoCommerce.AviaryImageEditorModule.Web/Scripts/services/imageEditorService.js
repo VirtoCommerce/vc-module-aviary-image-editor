@@ -29,7 +29,7 @@
 
             function getImageUrl(code, imageType) {
                 var folderUrl = 'catalog/' + code + (imageType ? '/' + imageType : '');
-                return { folderUrl: '/' + folderUrl, relative: 'api/platform/assets?folderUrl=' + folderUrl };
+                return { folderUrl: folderUrl, relative: 'api/platform/assets?folderUrl=' + folderUrl };
             };
 
             function replaceAndCreateImageBackup(image, newUrl, blade) {
