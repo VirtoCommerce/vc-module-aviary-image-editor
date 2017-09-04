@@ -18,8 +18,13 @@
 
 
             function addImageToAssets(selectedImage, newURL, blade) {
+                var folderUrl;
+                if (_.isEmpty(blade.currentEntity))
+                    folderUrl = "/";
+                else
+                    folderUrl = blade.currentEntity.url;
                 blade.uploadCompleted = false;
-                assets.uploadFromUrl({ folderUrl: blade.currentEntity.url, url: newURL, name: selectedImage.name }, function (data) {
+                assets.uploadFromUrl({ folderUrl: folderUrl, url: newURL, name: selectedImage.name }, function (data) {
                     blade.refresh();
                     blade.$scope.gridApi.grid.refresh();
                     blade.uploadCompleted = true;
