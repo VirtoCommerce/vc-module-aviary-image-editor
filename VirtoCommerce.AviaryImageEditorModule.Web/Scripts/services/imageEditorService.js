@@ -78,9 +78,12 @@
                             replaceAndCreateImageBackup(selectedImage, newURL, blade);
                     },
                     onError: function (errorObj) {
-                        alert(errorObj.message);
-                        if (errorObj.code == 8)
+                        if (errorObj.code == 8) {
+                            bladeNavigationService.setError(errorObj.message, blade);
                             openAviarySettingManagement(blade);
+                        }
+                        else
+                            bladeNavigationService.setError(errorObj.message, blade);
                     },
                     onLoad: function () {
                         editor.launch({

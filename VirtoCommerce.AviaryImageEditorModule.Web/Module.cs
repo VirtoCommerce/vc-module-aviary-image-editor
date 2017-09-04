@@ -11,19 +11,5 @@ namespace VirtoCommerce.AviaryImageEditorModule.Web
         {
             _container = container;
         }
-
-        public override void SetupDatabase()
-        {
-        }
-
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
-        public override void PostInitialize()
-        {
-            base.PostInitialize();
-        }
     }
 }
