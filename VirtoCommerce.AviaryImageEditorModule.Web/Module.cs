@@ -5,11 +5,9 @@ namespace VirtoCommerce.AviaryImageEditorModule.Web
 {
     public class Module : ModuleBase
     {
-        private readonly IUnityContainer _container;
-
         public Module(IUnityContainer container)
         {
-            _container = container;
+            IUnityContainer _container = container;
         }
     }
 }

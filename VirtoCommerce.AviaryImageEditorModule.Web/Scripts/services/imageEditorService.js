@@ -39,7 +39,8 @@
             function replaceAndCreateImageBackup(image, newUrl, blade) {
                 assets.searchAssetItems({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, keyword: image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup' }, function (searchResult) {
                     image.backupQuantity = searchResult.length;
-                    var backupName = image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup[' + (image.backupQuantity + 1) + '].jpg';
+                    var backupName = image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup[' + (image.backupQuantity + 1) + ']' + image.name.substr(_.lastIndexOf(image.name, '.'), image.name.length-1);
+                    console.log(backupName);
                     assets.uploadFromUrl({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, url: image.url, name: backupName }, function (data) {
                     });
                     assets.uploadFromUrl({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, url: newUrl, name: image.name }, function (data) {
@@ -78,12 +79,10 @@
                             replaceAndCreateImageBackup(selectedImage, newURL, blade);
                     },
                     onError: function (errorObj) {
+                        bladeNavigationService.setError(errorObj.message, blade);
                         if (errorObj.code == 8) {
-                            bladeNavigationService.setError(errorObj.message, blade);
                             openAviarySettingManagement(blade);
                         }
-                        else
-                            bladeNavigationService.setError(errorObj.message, blade);
                     },
                     onLoad: function () {
                         editor.launch({
