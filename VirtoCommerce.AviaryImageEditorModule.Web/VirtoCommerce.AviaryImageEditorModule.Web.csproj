@@ -96,9 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\logo.png" />
-    <Content Include="gulpfile.js" />
     <Content Include="Localizations\en.VirtoCommerce.ImageEditor.json" />
-    <Content Include="bower.json" />
     <None Include="module.ignore" />
     <None Include="packages.config" />
     <None Include="app.config" />
@@ -116,8 +114,7 @@
   <ItemGroup>
     <Content Include="module.manifest" />
     <Content Include="Content\css\image-editor.css" />
-    <Content Include="Scripts\allPackages.js" />
-    <Content Include="Scripts\directives\aviary.js" />
+    <Content Include="Scripts\resources\Aviary.js" />
     <Content Include="Scripts\services\imageEditorService.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\resources\imageEditorApi.js" />
