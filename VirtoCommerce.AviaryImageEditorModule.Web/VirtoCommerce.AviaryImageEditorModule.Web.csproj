@@ -23,6 +23,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -86,23 +87,23 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="VirtoCommerce.Platform.Core, Version=2.13.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VirtoCommerce.Platform.Core.2.13.12\lib\net461\VirtoCommerce.Platform.Core.dll</HintPath>
+    <Reference Include="VirtoCommerce.Platform.Core, Version=2.13.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VirtoCommerce.Platform.Core.2.13.15\lib\net461\VirtoCommerce.Platform.Core.dll</HintPath>
     </Reference>
-    <Reference Include="VirtoCommerce.Platform.Core.Web, Version=2.13.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\VirtoCommerce.Platform.Core.Web.2.13.12\lib\net461\VirtoCommerce.Platform.Core.Web.dll</HintPath>
+    <Reference Include="VirtoCommerce.Platform.Core.Web, Version=2.13.15.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\VirtoCommerce.Platform.Core.Web.2.13.15\lib\net461\VirtoCommerce.Platform.Core.Web.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\logo.png" />
-    <Content Include="gulpfile.js" />
     <Content Include="Localizations\en.VirtoCommerce.ImageEditor.json" />
-    <Content Include="bower.json" />
     <None Include="module.ignore" />
     <None Include="packages.config" />
     <None Include="app.config" />
     <Content Include="package.json" />
-    <None Include="Web.config" />
+    <None Include="Web.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -113,10 +114,7 @@
   <ItemGroup>
     <Content Include="module.manifest" />
     <Content Include="Content\css\image-editor.css" />
-    <Content Include="Scripts\allPackages.js" />
-    <Content Include="Scripts\blades\image-editor.js" />
-    <Content Include="Scripts\blades\image-editor.tpl.html" />
-    <Content Include="Scripts\directives\aviary.js" />
+    <Content Include="Scripts\resources\Aviary.js" />
     <Content Include="Scripts\services\imageEditorService.js" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\resources\imageEditorApi.js" />
@@ -161,13 +159,15 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <Import Project="..\packages\VirtoCommerce.Module.0.12.0\build\VirtoCommerce.Module.targets" Condition="Exists('..\packages\VirtoCommerce.Module.0.12.0\build\VirtoCommerce.Module.targets')" />
+  <Import Project="..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets" Condition="Exists('..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\VirtoCommerce.Module.0.12.0\build\VirtoCommerce.Module.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VirtoCommerce.Module.0.12.0\build\VirtoCommerce.Module.targets'))" />
+    <Error Condition="!Exists('..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSBuildTasks.1.5.0.235\build\MSBuildTasks.targets'))" />
+    <Error Condition="!Exists('..\packages\VirtoCommerce.Module.0.17.0\build\VirtoCommerce.Module.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\VirtoCommerce.Module.0.17.0\build\VirtoCommerce.Module.targets'))" />
   </Target>
+  <Import Project="..\packages\VirtoCommerce.Module.0.17.0\build\VirtoCommerce.Module.targets" Condition="Exists('..\packages\VirtoCommerce.Module.0.17.0\build\VirtoCommerce.Module.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
