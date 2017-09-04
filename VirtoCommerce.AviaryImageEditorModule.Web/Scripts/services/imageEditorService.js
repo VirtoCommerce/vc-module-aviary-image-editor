@@ -7,7 +7,7 @@
                 var newBlade = {
                     id: 'settingsSection',
                     data: blade.apiKeyData,
-                    moduleId: 'itemImage',
+                    moduleId: 'VirtoCommerce.AviaryImageEditorModule',
                     title: 'editor.blades.title',
                     subtitle: 'editor.blades.subtitle',
                     controller: 'platformWebApp.settingsDetailController',
