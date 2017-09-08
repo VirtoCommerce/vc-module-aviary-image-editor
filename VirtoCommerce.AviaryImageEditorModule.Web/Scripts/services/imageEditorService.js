@@ -65,7 +65,6 @@
                     folderUrl = relativeUrl.slice(1, _.lastIndexOf(relativeUrl, '/'));
                 else
                     folderUrl = relativeUrl.substr(0, _.lastIndexOf(relativeUrl, '/'));
-                console.log(folderUrl);
                 return { folderUrl: folderUrl, relative: 'api/platform/assets?folderUrl=' + folderUrl };
             };
 
