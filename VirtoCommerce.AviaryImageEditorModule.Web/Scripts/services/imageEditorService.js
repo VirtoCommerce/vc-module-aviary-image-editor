@@ -17,19 +17,41 @@
             };
 
 
-            function addImageToAssets(selectedImage, newURL, blade) {
-                var folderUrl;
-                if (_.isEmpty(blade.currentEntity))
-                    folderUrl = "/";
-                else
-                    folderUrl = blade.currentEntity.url;
+            function replaceAndCreateImageBackup(image, newUrl, blade) {
                 blade.uploadCompleted = false;
-                assets.uploadFromUrl({ folderUrl: folderUrl, url: newURL, name: selectedImage.name }, function (data) {
-                    blade.refresh();
-                    blade.$scope.gridApi.grid.refresh();
-                    blade.uploadCompleted = true;
-                    blade.selectedImages = [];
-                });
+                assets.query({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, keyword: image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup' }, function (searchResult) {
+                    image.backupQuantity = searchResult.length;
+                    var backupName = image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup[' + (image.backupQuantity + 1) + ']' + image.name.substr(_.lastIndexOf(image.name, '.'), image.name.length - 1);
+                    assets.uploadFromUrl({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, url: image.url, name: backupName }, function (data) {
+                    });
+                    assets.uploadFromUrl({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, url: newUrl, name: image.name }, function (data) {
+                        if (image.id === image.name) {
+                            blade.refresh();
+                            blade.$scope.gridApi.grid.refresh();
+                            blade.uploadCompleted = true;
+                            blade.selectedImages = [];
+                        }
+                        else
+                        {
+                            _.each(data, function (x) {
+                                var request = { imageUrl: x.url, isRegenerateAll: true };
+                                blade.currentEntities = _.each(blade.currentEntities, function (z) { if (_.isEqual(z.id, image.id)) z.url = x.url + '?t=' + new Date().getTime() });
+                                blade.item.images = blade.currentEntities;
+                                _.each(blade.parentBlade.origItem.images, function (z) { if (_.isEqual(z.id, image.id)) z.url = x.url + '?t=' + new Date().getTime() });
+                                imageTools.generateThumbnails(request, function (response) {
+                                    if (!response || response.error) {
+                                        bladeNavigationService.setError(response.error, blade);
+                                        blade.selectedImages = [];
+                                        editor.close();
+                                    }
+                                });
+                                blade.uploadCompleted = true;
+                                blade.selectedImages = [];
+                                editor.close();
+                            });
+                        }
+                    });
+                })
             };
 
             function getImageUrl(relativeUrl) {
@@ -41,34 +63,6 @@
                 return { folderUrl: folderUrl, relative: 'api/platform/assets?folderUrl=' + folderUrl };
             };
 
-            function replaceAndCreateImageBackup(image, newUrl, blade) {
-                assets.query({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, keyword: image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup' }, function (searchResult) {
-                    image.backupQuantity = searchResult.length;
-                    var backupName = image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup[' + (image.backupQuantity + 1) + ']' + image.name.substr(_.lastIndexOf(image.name, '.'), image.name.length-1);
-                    assets.uploadFromUrl({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, url: image.url, name: backupName }, function (data) {
-                    });
-                    assets.uploadFromUrl({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, url: newUrl, name: image.name }, function (data) {
-                        _.each(data, function (x) {
-                            var request = { imageUrl: x.url, isRegenerateAll: true };
-                            blade.currentEntities = _.each(blade.currentEntities, function (z) { if (_.isEqual(z.id, image.id)) z.url = x.url + '?t=' + new Date().getTime() });
-                            blade.item.images = blade.currentEntities;
-                            _.each(blade.parentBlade.origItem.images, function (z) { if (_.isEqual(z.id, image.id)) z.url = x.url + '?t=' + new Date().getTime() });
-                            imageTools.generateThumbnails(request, function (response) {
-                                if (!response || response.error) {
-                                    bladeNavigationService.setError(response.error, blade);
-                                    blade.selectedImages = [];
-                                    editor.close();
-                                }
-                            });
-                            blade.selectedImages = [];
-                            editor.close();
-                        });
-                    });
-  
-                });
-           
-            };
-
             this.createImageEditorObject = function (blade, selectedImage) {
                 return editor = new Aviary.Feather({
                     apiKey: blade.apiKeyData[0].value,
@@ -77,10 +71,7 @@
                     tools: 'all',
                     appendTo: '',
                     onSave: function (imageID, newURL) {
-                        if (blade.id == 'assetList')
-                            addImageToAssets(selectedImage, newURL, blade);
-                        else
-                            replaceAndCreateImageBackup(selectedImage, newURL, blade);
+                        replaceAndCreateImageBackup(selectedImage, newURL, blade);
                     },
                     onError: function (errorObj) {
                         bladeNavigationService.setError(errorObj.message, blade);
