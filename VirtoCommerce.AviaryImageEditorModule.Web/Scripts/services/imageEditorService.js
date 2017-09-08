@@ -18,11 +18,6 @@
 
 
             function replaceAndCreateImageBackup(image, newUrl, blade) {
-                var folderUrl;
-                if (_.isEmpty(blade.currentEntity))
-                    folderUrl = "/";
-                else
-                    folderUrl = blade.currentEntity.url;
                 blade.uploadCompleted = false;
                 assets.query({ folderUrl: getImageUrl(image.relativeUrl).folderUrl, keyword: image.name.substr(0, _.lastIndexOf(image.name, '.')) + '_backup' }, function (searchResult) {
                     image.backupQuantity = searchResult.length;
