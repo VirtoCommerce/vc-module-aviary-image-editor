@@ -1,6 +1,6 @@
 ﻿angular.module('virtoCommerce.aviaryImageEditorModule')
-    .service('virtoCommerce.aviaryImageEditorModule.imageEditorService', ['FileUploader', 'platformWebApp.assets.api', 'platformWebApp.settings', 'platformWebApp.bladeNavigationService', 'virtoCommerce.catalogModule.imageTools',
-        function (FileUploader, assets, settings, bladeNavigationService, imageTools) {
+    .service('virtoCommerce.aviaryImageEditorModule.imageEditorService', ['FileUploader', 'platformWebApp.assets.api', 'platformWebApp.settings', 'platformWebApp.bladeNavigationService', 
+        function (FileUploader, assets, settings, bladeNavigationService) {
             var editor;
 
             function openAviarySettingManagement(blade) {
@@ -34,17 +34,9 @@
                         else
                         {
                             _.each(data, function (x) {
-                                var request = { imageUrl: x.url, isRegenerateAll: true };
                                 blade.currentEntities = _.each(blade.currentEntities, function (z) { if (_.isEqual(z.id, image.id)) z.url = x.url + '?t=' + new Date().getTime() });
                                 blade.item.images = blade.currentEntities;
                                 _.each(blade.parentBlade.origItem.images, function (z) { if (_.isEqual(z.id, image.id)) z.url = x.url + '?t=' + new Date().getTime() });
-                                imageTools.generateThumbnails(request, function (response) {
-                                    if (!response || response.error) {
-                                        bladeNavigationService.setError(response.error, blade);
-                                        blade.selectedImages = [];
-                                        editor.close();
-                                    }
-                                });
                                 blade.uploadCompleted = true;
                                 blade.selectedImages = [];
                                 editor.close();
