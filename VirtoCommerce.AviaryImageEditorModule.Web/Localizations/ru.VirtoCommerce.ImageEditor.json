@@ -1,0 +1,11 @@
+﻿{
+  "editor": {
+    "blades": {
+      "title": "Aviary редактор изображений",
+      "subtitle": "API менеджер ключей",
+      "toolbar": {
+        "iconName": "Редактировать"
+      }
+    }
+  }
+}
