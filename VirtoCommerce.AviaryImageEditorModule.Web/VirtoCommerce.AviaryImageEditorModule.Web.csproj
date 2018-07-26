@@ -29,7 +29,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -97,6 +97,7 @@
   <ItemGroup>
     <Content Include="Content\logo.png" />
     <Content Include="Localizations\en.VirtoCommerce.ImageEditor.json" />
+    <Content Include="Localizations\ru.VirtoCommerce.ImageEditor.json" />
     <None Include="module.ignore" />
     <None Include="packages.config" />
     <None Include="app.config" />
